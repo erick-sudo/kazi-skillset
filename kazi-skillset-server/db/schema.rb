@@ -16,6 +16,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_28_203955) do
     t.string "lastname"
     t.string "email"
     t.string "phone"
+    t.string "password_digest"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -38,6 +39,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_28_203955) do
     t.integer "category_id"
     t.string "portfoliourl"
     t.string "location"
+    t.string "password_digest"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

@@ -10,6 +10,7 @@ class CreateProfessionals < ActiveRecord::Migration[7.0]
       t.integer :category_id
       t.string :portfoliourl
       t.string :location
+      t.string :password_digest
 
       t.timestamps
     end
