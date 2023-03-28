@@ -2,8 +2,11 @@ import React from 'react';
 
 
 const Landing = () => {
+  
   return (
-    <div>
+    <div className='section-1'>
+
+  
 
       <div className='text1'>
         <p>Get Started</p>
