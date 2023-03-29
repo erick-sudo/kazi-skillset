@@ -4,6 +4,7 @@ function Home (){
     const [searchTerm, setSearchTerm] = useState('')
     const [professionals, setProfessionals] = useState([])
     const [selectedCategory, setSelectedCategory] = useState("")
+    const [searchResults, setSearchResults] = useState([]);
 
     let url = 'http://localhost:3000/professionals';
 
@@ -14,13 +15,13 @@ function Home (){
             url += `?category=${selectedCategory}`;
         }
         fetch(url)
-        .then((response) => response.json())
-        .then((data) => {
-            const randomProfessionals = data.sort(() => Math.random() - 0.5).slice(0, 10);
-            console.log(randomProfessionals)
-            setProfessionals(randomProfessionals);
-            
-        })},[selectedCategory])
+            .then((response) => response.json())
+            .then((data) => {
+                const randomProfessionals = data.sort(() => Math.random() - 0.5).slice(0, 12);
+                console.log(randomProfessionals)
+                setProfessionals(randomProfessionals);
+                
+            })},[selectedCategory])
 
     const handleSubmit = (e) => {
             e.preventDefault();
@@ -31,8 +32,8 @@ function Home (){
                 fetch(url)
                     .then((response) => response.json())
                     .then((data) => {
-                    setProfessionals(data);
-            });
+                    setSearchResults(data);
+                });
             }
              else {
                 alert('Input something to search');
@@ -86,6 +87,11 @@ function Home (){
                     <button className="miniBtn"><i className="fa fa-search"></i></button>
                 </form>
             </div>
+            {searchResults.length > 0 && (
+                <p>
+                    Search Results for "{searchTerm}": {searchResults.length}
+                </p>
+            )}
             <div className="professionalList">
                 {professionals.map((professional) => (
                     <div className='ui card' key={professional.id}>
