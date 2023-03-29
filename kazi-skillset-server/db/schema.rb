@@ -30,7 +30,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_29_084042) do
 
   create_table "jobs", force: :cascade do |t|
     t.integer "client_id"
-    t.integer "proffesional_id"
+    t.integer "professional_id"
     t.integer "task_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -53,15 +53,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_29_084042) do
   end
 
   create_table "reviews", force: :cascade do |t|
-    t.integer "proffesional_id"
+    t.integer "professional_id"
     t.integer "client_id"
     t.string "comment"
     t.integer "star_rating"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "tasks", force: :cascade do |t|
+    t.integer "category_id"
     t.integer "client_id"
     t.string "description"
     t.datetime "start_date"
