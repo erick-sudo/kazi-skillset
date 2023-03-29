@@ -22,3 +22,5 @@ Things you may want to cover:
 * Deployment instructions
 
 * ...
+# skillset dependencies -dbdiagram
+https://dbdiagram.io/d/642450375758ac5f17252990
