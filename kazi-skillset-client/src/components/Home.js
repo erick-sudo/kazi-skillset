@@ -8,11 +8,11 @@ function Home (){
     let url = 'http://localhost:3000/professionals';
 
     useEffect(() =>{
+        let url = 'http://localhost:3000/professionals';
 
         if (selectedCategory) {
             url += `?category=${selectedCategory}`;
         }
-
         fetch(url)
         .then((response) => response.json())
         .then((data) => {
@@ -26,7 +26,8 @@ function Home (){
             e.preventDefault();
             if (searchTerm.length > 0) {
         // handle search of professionals
-                url += `?name=${searchTerm}`;
+                let searchKey = searchTerm.toLocaleLowerCase()
+                url += `?name=${searchKey}`;
                 fetch(url)
                     .then((response) => response.json())
                     .then((data) => {
