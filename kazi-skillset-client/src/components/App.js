@@ -1,3 +1,5 @@
+import "../App.css"
+
 import { Routes, Route } from "react-router-dom";
 import Landing from "./Landing";
 import Recents from "./Recents";
