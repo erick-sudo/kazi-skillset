@@ -43,7 +43,7 @@ location            string
 rails g resource Professional firstname lastname description email phone:integer poster category_id:integer portfoliourl location --no-test-framework
 
 ## Review
-proffesional_id     integer
+job_id              integer
 client_id           integer
 comment             text
 star_rating         integer

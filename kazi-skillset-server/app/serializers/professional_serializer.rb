@@ -1,3 +1,3 @@
 class ProfessionalSerializer < ActiveModel::Serializer
-  attributes :id, :firstname, :lastname, :description, :email, :phone, :poster, :category_id, :portfoliourl, :location
+  attributes :id, :username, :firstname, :lastname, :description, :email, :phone, :poster, :category_id, :portfoliourl, :location
 end
