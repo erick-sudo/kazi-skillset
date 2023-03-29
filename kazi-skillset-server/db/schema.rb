@@ -10,25 +10,34 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_28_203955) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_29_084042) do
+  create_table "categories", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "clients", force: :cascade do |t|
+    t.string "username"
     t.string "firstname"
     t.string "lastname"
     t.string "email"
     t.string "phone"
+    t.string "password_digest"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "jobs", force: :cascade do |t|
     t.integer "client_id"
-    t.integer "proffesional_id"
+    t.integer "professional_id"
     t.integer "task_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "professionals", force: :cascade do |t|
+    t.string "username"
     t.string "firstname"
     t.string "lastname"
     t.string "description"
@@ -38,20 +47,20 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_28_203955) do
     t.integer "category_id"
     t.string "portfoliourl"
     t.string "location"
+    t.string "password_digest"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "reviews", force: :cascade do |t|
-    t.integer "proffesional_id"
+    t.integer "professional_id"
     t.integer "client_id"
     t.string "comment"
     t.integer "star_rating"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "tasks", force: :cascade do |t|
+    t.integer "category_id"
     t.integer "client_id"
     t.string "description"
     t.datetime "start_date"
