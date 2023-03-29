@@ -5,6 +5,7 @@ import Navbar from "./Navbar";
 import LoginForm from "./LoginForm";
 import SignUpForm from "./SignUpForm";
 import Tasks from "./Tasks";
+import Home from "./Home";
 
 const App = () => {
   return (
@@ -16,6 +17,7 @@ const App = () => {
         <Route path="/livechat" element={<></>} />
         <Route path="/login" element={<LoginForm />} />
         <Route path="/signup" element={<SignUpForm />} />
+        <Route path="/home" element={<Home />} />
       </Routes>
     </div>
   );
