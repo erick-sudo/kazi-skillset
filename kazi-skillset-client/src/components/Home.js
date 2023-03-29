@@ -5,9 +5,9 @@ function Home (){
     const [professionals, setProfessionals] = useState([])
     const [selectedCategory, setSelectedCategory] = useState("")
 
-    useEffect(() =>{
+    let url = 'http://localhost:3000/professionals';
 
-        let url = 'http://localhost:3000/professionals';
+    useEffect(() =>{
 
         if (selectedCategory) {
             url += `?category=${selectedCategory}`;
@@ -26,8 +26,14 @@ function Home (){
             e.preventDefault();
             if (searchTerm.length > 0) {
         // handle search of professionals
-                
-            } else {
+                url += `?name=${searchTerm}`;
+                fetch(url)
+                    .then((response) => response.json())
+                    .then((data) => {
+                    setProfessionals(data);
+            });
+            }
+             else {
                 alert('Input something to search');
             }
     };
