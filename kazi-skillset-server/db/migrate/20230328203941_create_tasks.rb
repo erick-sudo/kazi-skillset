@@ -1,6 +1,7 @@
 class CreateTasks < ActiveRecord::Migration[7.0]
   def change
     create_table :tasks do |t|
+      t.integer :category_id
       t.integer :client_id
       t.string :description
       t.datetime :start_date

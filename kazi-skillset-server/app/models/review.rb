@@ -1,4 +1,4 @@
 class Review < ApplicationRecord
     belongs_to :job
-    has_one :client
+    belongs_to :client
 end
