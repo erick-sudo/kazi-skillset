@@ -12,7 +12,7 @@ function Tasks() {
     fetch(`/tasks`)
       .then((response) => response.json())
       .then((data) => {
-
+        console.log(data)
         const tasks = data
         setTasks(tasks);
       })
