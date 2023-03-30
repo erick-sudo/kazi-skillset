@@ -1,5 +1,14 @@
 class ClientsController < ApplicationController
-    skip_before_action :authorize, only: [:signup]
+   #  skip_before_action :authorize, only: [:signup]
+
+   def index
+    render json: Client.all
+   end
+
+    def show
+        prof = Client.find(params[:id])
+        render json: prof
+    end
 
     def signup
         client = Client.create!(signup_client_params)
