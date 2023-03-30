@@ -1,4 +1,5 @@
 import { Routes, Route } from "react-router-dom";
+import 'bootstrap/dist/css/bootstrap.css';
 import Landing from "./Landing";
 import Recents from "./Recents";
 import Navbar from "./Navbar";

@@ -43,8 +43,7 @@ function Home (){
 
     return(
         <>
-            <h2>Kazi SkillSet</h2>
-            <nav className="navbar navbar-expand-lg">
+            <nav className="navbar navbar-expand-lg" style={{backgroundColor:'blue'}}>
                 <ul 
                 style={{
                 marginLeft:'20px',
