@@ -33,6 +33,7 @@ function Home (){
                     .then((response) => response.json())
                     .then((data) => {
                     setSearchResults(data);
+                    setProfessionals(searchResults);
                 });
             }
              else {
@@ -43,7 +44,14 @@ function Home (){
 
     return(
         <>
-            <nav className="navbar navbar-expand-lg" style={{backgroundColor:'blue'}}>
+            <div className="searchBar">
+                <form onSubmit={handleSubmit}>
+                    <input className="miniBar" type="tetx" placeholder="Search" onChange={(e)=>setSearchTerm(e.target.value)}/>
+                    <button className="miniBtn"><i className="fa fa-search"></i></button>
+                </form>
+            </div>
+
+            <nav className="navbar navbar-expand-lg" style={{backgroundColor:'blue', height:'70px'}}>
                 <ul 
                 style={{
                 marginLeft:'20px',
@@ -51,41 +59,23 @@ function Home (){
                 }}
                 className="navbar-nav me-auto mb-2 mb-lg-0">
                     <li className="nav-item">
-                        <button className="nav-link active" onClick={() => setSelectedCategory("Education")}>Education</button>
+                        <a className="nav-link" onClick={() => setSelectedCategory("Education")}>Education</a>
                     </li>
                     <li className="nav-item">
-                        <button className="nav-link active" onClick={() => setSelectedCategory("Health")}>Health</button>
+                        <a className="nav-link active" onClick={() => setSelectedCategory("Health")}>Health</a>
                     </li>
                     <li className="nav-item">
-                        <button className="nav-link active"  onClick={() => setSelectedCategory("Building and Construction")}>Building and Construction</button>
+                        <a className="nav-link active"  onClick={() => setSelectedCategory("Building and Construction")}>Building and Construction</a>
                     </li>
                     <li className="nav-item">
-                        <button className="nav-link active" onClick={() => setSelectedCategory("Software Services")}>Software Services</button>
+                        <a className="nav-link active" onClick={() => setSelectedCategory("Software Services")}>Software Services</a>
                     </li>
                     <li className="nav-item">
-                        <button className="nav-link active" onClick={() => setSelectedCategory("Social Services")}>Social Services</button>
+                        <a className="nav-link active" onClick={() => setSelectedCategory("Social Services")}>Social Services</a>
                     </li>
                 </ul>
-                    {/* <div class="dropdown">
-                        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                            Dropdown
-                            <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                            <li><a href="#">Logout</a></li>
-                            <li><a href="#">Profile</a></li>
-                            <li><a href="#">Settings</a></li>
-                        </ul>
-                    </div> */}
                 </nav>
 
-            
-            <div className="searchBar">
-                <form onSubmit={handleSubmit}>
-                    <input className="miniBar" type="tetx" placeholder="Search" onChange={(e)=>setSearchTerm(e.target.value)}/>
-                    <button className="miniBtn"><i className="fa fa-search"></i></button>
-                </form>
-            </div>
             {searchResults.length > 0 && (
                 <p>
                     Search Results for "{searchTerm}": {searchResults.length}
