@@ -1,5 +1,14 @@
 class ProfessionalsController < ApplicationController
-    skip_before_action :authorize, only: [:signup]
+    # skip_before_action :authorize, only: [:signup]
+
+    def index
+        render json: Professional.all
+    end
+
+    def show
+        prof = Professional.find(params[:id])
+        render json: prof
+    end
 
     def signup
         prof = Professional.create!(signup_prof_params)

@@ -12,10 +12,10 @@ const Landing = () => {
         <p>Get Started</p>
       </div>
 
-      <div class="input-box">
-        <i class="uil uil-search"></i>
+      <div className="input-box">
+        <i className="uil uil-search"></i>
         <input type="text" placeholder="Search here..." />
-        <button class="button">Search</button>
+        <button className="button">Search</button>
        </div>
   
     </div>
