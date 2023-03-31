@@ -1,11 +1,14 @@
 import { GiPadlock} from "react-icons/gi"
 import { RiAccountCircleLine} from "react-icons/ri"
+import { RiLoginCircleLine } from "react-icons/ri"
 
 function LoginForm(){
     return(
-        <div>
+        <div className="mt-5">
             <div className="flex justify-center">
-                 <form className="shadow-md shadow-black flex flex-col px-10 bg-slate-400 max-w-lg ">
+                 <form action="http://localhost:3000/login" method="POST" className="shadow-lg shadow-black flex flex-col px-10 bg-white max-w-lg ">
+                    <p></p>
+                    <div className="my-3 text-center flex justify-center text-slate-300" style={{fontSize: "5em"}}><RiLoginCircleLine /></div>
                    <div className="flex my-3">
                      <div className="border border-black py-2 px-3 flex items-center">
                      <RiAccountCircleLine/>
@@ -26,8 +29,7 @@ function LoginForm(){
                             <input type="checkbox" className="mr-2" />
                             <span>Remember me</span>
                         </div>
-                        <button >Login</button>
-                        {/* className="bg-white w-max px-4 py-1 my-2 mx-auto hover:bg-sky-500 hover:text-white" */}
+                        <button className="bg-sky-700 w-max px-4 py-2 rounded-md my-2 mx-auto hover:bg-sky-500 hover:text-white" >Login</button>
                     </div>
 
                 </form>

@@ -81,11 +81,11 @@ function Home (){
                     Search Results for "{searchTerm}": {searchResults.length}
                 </p>
             )}
-            <div className="professionalList">
+            <div className="professionalList grid grid-cols-4">
                 {professionals.map((professional) => (
                     <div className='ui card' key={professional.id}>
                         <div className="image" >
-                            <img alt='professional.name' src="./rec-images/background.jpg"/>
+                            <img alt='professional.firstname' src="./rec-images/background.jpg"/>
                         </div>
                         <div className="content">
                             <div className="header">

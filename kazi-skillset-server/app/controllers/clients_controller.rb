@@ -1,5 +1,5 @@
 class ClientsController < ApplicationController
-   #  skip_before_action :authorize, only: [:signup]
+    # skip_before_action :authorize, only: [:signup]
 
    def index
     render json: Client.all

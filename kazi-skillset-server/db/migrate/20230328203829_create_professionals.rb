@@ -12,6 +12,8 @@ class CreateProfessionals < ActiveRecord::Migration[7.0]
       t.string :portfoliourl
       t.string :location
       t.string :password_digest
+      # New Attribute
+      t.string :job_title
 
       t.timestamps
     end
