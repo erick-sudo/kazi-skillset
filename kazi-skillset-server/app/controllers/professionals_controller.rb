@@ -20,6 +20,10 @@ class ProfessionalsController < ApplicationController
         render json: prof
     end
 
+    def job_reviews
+        
+    end
+
     private
 
     def signup_prof_params
