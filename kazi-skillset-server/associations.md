@@ -21,3 +21,30 @@ Job belongs professional
 # Task --< Client
 Client has many tasks
 Task belongs client
+
+
+
+endpoint = "http://localhost:3000/professionals/:id/reviews"
+Array of Job reviews
+[
+    {
+        client: {
+            firstname: ,
+            lastname: ,
+            email: ,
+        },
+        task: {
+            description: ,
+        },
+        reviews: [
+            {
+                comment: ,
+                star_rating: ,
+            },
+            {
+                comment: ,
+                star_rating: ,
+            }
+        ]
+    }
+]

@@ -6,4 +6,6 @@ class Professional < ApplicationRecord
     validates :email, presence: true
     belongs_to :category
     has_many :jobs
+    has_many :messages
+    has_many :clients, through: :messages
 end
