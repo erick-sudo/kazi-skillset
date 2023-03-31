@@ -22,18 +22,6 @@ function Livechat({hideLivechat, user}) {
                 <div id="messages" className="relative">
                     <Bubble owner={0}/>
                     <Bubble owner={1}/>
-                    <Bubble owner={0}/>
-                    <Bubble owner={1}/>
-                    <Bubble owner={1}/>
-                    <Bubble owner={0}/>
-                    <Bubble owner={1}/>
-                    <Bubble owner={0}/>
-                    <Bubble owner={1}/>
-                    <Bubble owner={0}/>
-                    <Bubble owner={1}/>
-                    <Bubble owner={1}/>
-                    <Bubble owner={0}/>
-                    <Bubble owner={1}/>
                 </div>
             </div>
             <div className="flex rounded-b-xl absolute h-12 right-0 left-0 bottom-0">

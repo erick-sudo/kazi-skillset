@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :messages
   resources :categories
   resources :jobs
   resources :tasks
@@ -8,12 +9,15 @@ Rails.application.routes.draw do
 
   get '/professionals/:id/reviews', to: 'professionals#job_reviews'
 
-
   get '/search', to: 'professionals#filter_by_title'
 
   post '/login', to: 'sessions#login'
   post '/signup', to: 'clients#signup'
   get '/me_c', to: 'clients#me'
+
+  get '/chats', to: 'messages#chat_messages'
+  get '/clients/:id/chats', to: 'clients#chats'
+  get '/professionals/:id/chats', to: 'professionals#chats'
 
   get '/me_prof', to: 'professionals#me'
   post '/login_p', to: 'sessions#logprof'

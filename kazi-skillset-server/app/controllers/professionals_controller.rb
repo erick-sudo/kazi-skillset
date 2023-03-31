@@ -13,6 +13,14 @@ class ProfessionalsController < ApplicationController
         end
     end
 
+    def chats
+        render json: Professional.find(params[:id]).clients.uniq
+    end
+
+    def job_reviews
+        render json: Professional.find(params[:id]).jobs
+    end
+
     def show
         prof = Professional.find(params[:id])
         render json: prof

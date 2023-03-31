@@ -10,6 +10,10 @@ class ClientsController < ApplicationController
         render json: prof
     end
 
+    def chats
+        render json: Client.find(params[:id]).professionals.uniq
+    end
+
     def signup
         client = Client.create!(signup_client_params)
         render json: client, status: :created
