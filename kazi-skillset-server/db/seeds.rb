@@ -6,7 +6,7 @@
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
 
-puts "Seeding Data"
+puts "Seeding Clients"
 50.times do
     fname = Faker::Name.first_name
     lname = Faker::Name.last_name
@@ -19,14 +19,18 @@ puts "Seeding Data"
         password: "password"
     })
 end
+puts "Done seeding Clients"
 
 job_titles = ["Plumber","Teacher", "Doctor", "Developer", "Driver", "Pilot", "Mason", "Electrician", "Architect", "Herbalist"]
 
+puts "Seeding Categories"
 categories = ['Health', 'Education', 'Building and Construction', 'Software Services', 'Social Services']
 categories.each do |category|
     Category.create(name: category)
 end
+puts "Done Creating Categories"
 
+puts "Seeding Professionals"
 200.times do
     fname = Faker::Name.first_name
     lname = Faker::Name.last_name
@@ -45,16 +49,20 @@ end
         password: "password"
     })
 end
+puts "Done seeding Professionals"
 
+puts "Seeding Reviews"
 400.times do
     Review.create({
-        professional_id: rand(1..Professional.count),
+        job_id: rand(1..Job.count),
         client_id: rand(1..Client.count),
         comment: Faker::Lorem.paragraph(sentence_count: 19),
         star_rating: rand(1..10)
     })
 end
+puts "Done seeding Reviews"
 
+puts "Seeding Tasks"
 500.times do
     Task.create({
         category_id: rand(1..Category.count),
@@ -65,7 +73,9 @@ end
         budget: rand(156..599432)
     })
 end
+puts "Done seeding Tasks"
 
+puts "Seeding Jobs"
 300.times do
     Job.create({
         professional_id: rand(1..Professional.count),
@@ -73,5 +83,4 @@ end
         task_id: rand(1..Task.count),
     })
 end
-
-puts "Done Creating Categories"
+puts "Done seeding Jobs"

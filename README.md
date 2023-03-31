@@ -56,6 +56,30 @@ client_id           integer
 proffesional_id     integer
 task_id             integer
 
+
+?-----------------------------------
+Client Name
+Task description
+Reviews - Comment
+        - Star rating 
+/professionals/:id/reviews
+ {
+    client_name:
+    task_description:
+    review: {
+        comment: ,
+        star_rating: 
+    }
+} -->
+
+Controller = professionals controller
+
+def job_reviews
+
+end
+-------------------------------------------
+
+
 rails g resource Job client_id:integer proffesional_id:integer task_id:integer  --no-test-framework
 
 ## Task
