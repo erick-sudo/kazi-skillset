@@ -5,6 +5,8 @@ Rails.application.routes.draw do
   resources :reviews
   resources :professionals
   resources :clients
+
+  get '/search', to: 'professionals#filter_by_title'
   post '/login', to: 'sessions#login'
   post '/signup', to: 'clients#signup'
   get '/me_c', to: 'clients#me'

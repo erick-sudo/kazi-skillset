@@ -5,6 +5,14 @@ class ProfessionalsController < ApplicationController
         render json: Professional.all
     end
 
+    def filter_by_title
+        if params[:q]
+            render json: Professional.where(job_title: params[:q])
+        else
+            render json: Professional.all.sample(10)
+        end
+    end
+
     def show
         prof = Professional.find(params[:id])
         render json: prof

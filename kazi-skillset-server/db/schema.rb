@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_29_084042) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_31_133611) do
   create_table "categories", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -48,12 +48,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_29_084042) do
     t.string "portfoliourl"
     t.string "location"
     t.string "password_digest"
+    t.string "job_title"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "reviews", force: :cascade do |t|
-    t.integer "professional_id"
+    t.integer "job_id"
     t.integer "client_id"
     t.string "comment"
     t.integer "star_rating"
