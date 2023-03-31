@@ -4,6 +4,7 @@ class Professional < ApplicationRecord
     validates :firstname, presence: true
     validates :lastname, presence: true
     validates :email, presence: true
+    validates :job_title, presence: true
     belongs_to :category
     has_many :jobs
     has_many :messages
