@@ -2,6 +2,7 @@
 
 # KAZI-SKILLSET APP
 
+
 ## Future Developments
 - Payment Integration
 - Job specific reviews

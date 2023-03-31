@@ -20,6 +20,8 @@ puts "Seeding Data"
     })
 end
 
+job_titles = ["Plumber","Teacher", "Doctor", "Developer", "Driver", "Pilot", "Mason", "Electrician", "Architect", "Herbalist"]
+
 categories = ['Health', 'Education', 'Building and Construction', 'Software Services', 'Social Services']
 categories.each do |category|
     Category.create(name: category)
@@ -29,6 +31,7 @@ end
     fname = Faker::Name.first_name
     lname = Faker::Name.last_name
     Professional.create({
+        job_title: job_titles.sample,
         username: (fname+lname).downcase,
         firstname: fname,
         lastname: lname,

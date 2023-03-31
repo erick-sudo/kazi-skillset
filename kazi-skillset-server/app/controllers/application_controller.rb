@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::API
-    # before_action :authorize
+    #before_action :authorize
     include ActionController::Cookies
     wrap_parameters format: []
     rescue_from ActiveRecord::RecordNotFound, with: :response_not_found
