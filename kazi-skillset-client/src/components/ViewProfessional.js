@@ -123,35 +123,38 @@ function ViewProfessional() {
 
 function Reviews({id}) {
 
-    const [reviews, setReviews]  = useState([])
+  const [reviews, setReviews]  = useState([])
 
-    // useEffect(() => {
-    //     fetch(`http://localhost:3000/professionals/${id}/reviews`)
-    //     .then(response => response.json())
-    //     .then(revs => setReviews(revs))
-    // }, [])
+    useEffect(() => {
+       fetch(`http://localhost:3000/professionals/${id}/reviews`)
+       .then(response => response.json())
+       .then(revs => setReviews(revs))
+   }, [])
 
-    return (
-        <div className="border p-3">
-            <h1 className="px-5">Job Reviews</h1>
-            <div className="jobs grid grid-cols-2 w-full gap-2">
-                <div className="jobs grid grid-cols-1">
+  return (
+
+    <div className="container">
+      <h1 className="">Job Reviews</h1>
+      <div className="ui card">
+          <div className="">
+              <div className="">
+                {
+                  job_reviews.map((job, index) => {
+                    return <JobReviewCard job={job} key={index} />
+                  })
+                }
+              </div>
+              <div className="" >
                   {
-                    job_reviews.map((job, index) => {
-                      return <JobReviewCard job={job} key={index} />
+                    job_reviews[0].reviews.map((rev, idx) => {
+                      return <JobReviewerCard rev={rev} key={idx} />
                     })
                   }
-                </div>
-                <div className="reviews  bg-white " >
-                    {
-                      job_reviews[0].reviews.map((rev, idx) => {
-                        return <JobReviewerCard rev={rev} key={idx} />
-                      })
-                    }
-                </div>
-            </div>
-        </div>
-    )
+              </div>
+          </div>
+      </div>
+      </div>
+  )
 }
 
 //https://cdn.pixabay.com/photo/2013/07/13/01/10/plumbing-155224__340.png
