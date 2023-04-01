@@ -5,41 +5,66 @@ function Home (){
     const [professionals, setProfessionals] = useState([])
     const [selectedCategory, setSelectedCategory] = useState("")
     const [searchResults, setSearchResults] = useState([]);
+    const [allProfessionals, setAllProfessionals] = useState([])
 
-    let url = 'http://localhost:3000/professionals';
 
     useEffect(() =>{
         let url = 'http://localhost:3000/professionals';
 
-        if (selectedCategory) {
-            url += `?category=${selectedCategory}`;
-        }
         fetch(url)
             .then((response) => response.json())
             .then((data) => {
-                const randomProfessionals = data.sort(() => Math.random() - 0.5).slice(0, 12);
-                console.log(randomProfessionals)
+                const allProfessionals = data
+                setAllProfessionals(allProfessionals)
+                const randomProfessionals = allProfessionals.sort(() => Math.random() - 0.5).slice(0, 10);
                 setProfessionals(randomProfessionals);
-                
-            })},[selectedCategory])
+        })
+    },[])
 
-    const handleSubmit = (e) => {
+    //  function to filter professionals based on their categories
+
+    const handleFilter =()=>{
+        // filter the professionals based on the selected category
+        if (selectedCategory !== "") {
+            const filteredProfessionals = allProfessionals.filter((professional) => professional.category.name === selectedCategory);
+            const randomProfessionals = filteredProfessionals.sort(() => Math.random() - 0.5).slice(0, 12);
+            setProfessionals(randomProfessionals);
+        } else {
+            // If no category is selected, display random professionals
+            const randomProfessionals = allProfessionals.sort(() => Math.random() - 0.5).slice(0, 12);
+            setProfessionals(randomProfessionals);
+        }
+    }
+
+    //  run the handleFilter function when the selected category is updated
+
+    useEffect(() =>{
+        handleFilter()
+        setSearchResults([])
+    },[selectedCategory])     
+
+
+    // handle the searching of data on submit
+        const handleSubmit = (e) => {
             e.preventDefault();
             if (searchTerm.length > 0) {
-        // handle search of professionals
-                let searchKey = searchTerm.toLocaleLowerCase()
-                url += `?name=${searchKey}`;
-                fetch(url)
-                    .then((response) => response.json())
-                    .then((data) => {
+                let searchKey = searchTerm;
+                let searchUrl = `http://localhost:3000/search?q=${searchKey}`;
+                fetch(searchUrl)
+                .then((response) => response.json())
+                .then((data) => {
                     setSearchResults(data);
-                    setProfessionals(searchResults);
                 });
-            }
-             else {
+            } else {
                 alert('Input something to search');
             }
-    };
+        };
+
+        useEffect(() => {
+            if (searchResults.length > 0) {
+                setProfessionals(searchResults);
+            }
+        }, [searchResults]);
 
 
     return(
@@ -82,29 +107,34 @@ function Home (){
                 </p>
             )}
             <div className="professionalList grid grid-cols-4">
-                {professionals.map((professional) => (
-                    <div className='ui card' key={professional.id}>
-                        <div className="image" >
-                            <img alt='professional.firstname' src="./rec-images/background.jpg"/>
-                        </div>
-                        <div className="content">
-                            <div className="header">
-                        </div>
-                        <div className="meta text-wrap">
-                            <div className='prof-details'>
-                                <i className="user circle icon" style={{ fontSize: "25px" }} />
-                                <h3>Name</h3>
+                {professionals.length > 0 ? (
+                    professionals.map((professional) => (
+                        <div className='ui card' key={professional.id}>
+                            <div className="image" >
+                                <img alt={professional.username} src="./rec-images/background.jpg"/>
                             </div>
-                            <p style={{ marginTop: "25px" }}>Description</p>
+                            <div className="content">
+                                <div className="header">
+                            </div>
+                            <div className="meta text-wrap">
+                                <div className='prof-details'>
+                                    <i className="user circle icon" style={{ fontSize: "25px" }} />
+                                    <h3>Name: {professional.firstname}</h3>
+                                </div>
+                                <p style={{ marginTop: "25px" }}>Category: {professional.category.name}</p>
+                                <p style={{ marginTop: "25px" }}>Job Title: {professional.job_title}</p>
+                            </div>
                         </div>
-                    </div>
-                        <div className="extra content">
-                            <span>
-                                <h4>Starting at KSH</h4>
-                            </span>
+                            <div className="extra content">
+                                <span>
+                                    <h4>Starting at KSH</h4>
+                                </span>
+                            </div>
                         </div>
-                    </div>
-                ))}
+                    ))
+                    ) : (
+                    <p>No professionals found</p>
+                    )}
             </div>
         </>
     )
