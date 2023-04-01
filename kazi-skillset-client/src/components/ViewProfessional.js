@@ -121,38 +121,43 @@ function ViewProfessional() {
     )
 }
 
-function Reviews({id}) {
+const Reviews = () => {
+  const [review, setReview] = useState({});
+  const { id } = useParams();
 
-  const [reviews, setReviews]  = useState([])
+  useEffect(() => {
+    const fetchReview = async () => {
+      const response = await fetch(`http://localhost:3000/professionals/:id/reviews`);
+      const data = await response.json();
+      setReview(data);
+    };
 
-    useEffect(() => {
-       fetch(`http://localhost:3000/professionals/${id}/reviews`)
-       .then(response => response.json())
-       .then(revs => setReviews(revs))
-   }, [])
+    fetchReview();
+  }, [id]);
 
   return (
 
     <div className="container">
       <h1 className="">Job Reviews</h1>
-      <div className="ui card">
-          <div className="">
-              <div className="">
-                {
-                  job_reviews.map((job, index) => {
-                    return <JobReviewCard job={job} key={index} />
-                  })
-                }
-              </div>
-              <div className="" >
-                  {
-                    job_reviews[0].reviews.map((rev, idx) => {
-                      return <JobReviewerCard rev={rev} key={idx} />
-                    })
-                  }
-              </div>
+
+    
+
+      <div className="card_item" >
+
+             <div className="card_inner">
+                                   
+            <div className="comments">{review.comment}</div>
+                                    
+            <div className="detail-box">
+
+           <div className=""></div>
+                                        
+           </div>
+                                    
           </div>
-      </div>
+
+ </div>  
+    
       </div>
   )
 }
