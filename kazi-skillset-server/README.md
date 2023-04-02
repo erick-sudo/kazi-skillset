@@ -1,9 +1,7 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
+The following steps are necessary to get the
 application up and running.
-
-Things you may want to cover:
 
 * Ruby version
 
@@ -19,7 +17,23 @@ Things you may want to cover:
 
 * Services (job queues, cache servers, search engines, etc.)
 
-* Deployment instructions
+* Deployment instructions/ Heroku
 
 * ...
-system dependencies
+## Models creation
+  * client
+  * professional
+  * task
+  * category
+  * review
+  * job
+  * message
+
+## System dependencies -dbdiagram io
+https://dbdiagram.io/d/6426c61e5758ac5f1725be5a
+
+## Validations
+
+## Authentication & Authorization
+
+
