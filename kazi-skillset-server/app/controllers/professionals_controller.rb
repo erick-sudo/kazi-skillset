@@ -66,6 +66,6 @@ class ProfessionalsController < ApplicationController
     end
 
     def update_prof_params
-        params.permit(:id, :job_title, :username, :firstname, :lastname , :description, :email, :phone, :portfoliourl, :location)
+        params.permit(:id, :job_title, :username, :firstname, :lastname , :description, :email, :phone, :portfoliourl, :location, :poster)
     end
 end
