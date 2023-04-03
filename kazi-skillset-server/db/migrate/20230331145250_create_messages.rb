@@ -4,6 +4,7 @@ class CreateMessages < ActiveRecord::Migration[7.0]
       t.string :client_id
       t.string :professional_id
       t.string :content
+      t.integer :owner
 
       t.timestamps
     end

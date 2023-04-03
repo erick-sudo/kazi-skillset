@@ -1,86 +1,32 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 
-import { useParams, useNavigate } from "react-router-dom";
-import { BsFillChatTextFill, BsStarFill, BsStar } from "react-icons/bs"
+import { useNavigate, useParams } from "react-router-dom";
+import { BsStarFill, BsStar } from "react-icons/bs"
+import { GoNoNewline } from "react-icons/go"
+import { RiWhatsappFill, RiAccountPinCircleFill } from 'react-icons/ri'
+import { MdEmail, MdPermIdentity } from 'react-icons/md'
 
-import Livechat from "./Livechat";
 import Loading from "./Loading";
+import { UserContext } from "./UserContext";
 
-const job_reviews = [
-    {
-      "id": 46,
-      "client": {
-        "firstname": "Clarisa",
-        "lastname": "Haag",
-        "email": "clarisahaag@williamson.info"
-      },
-      "task": {
-        "description": "Eos quia ullam. Ratione illum id. Autem a autem. Rerum animi quo. Placeat consectetur veniam. Sit ut consequatur. Fugiat aspernatur voluptatem. Dignissimos voluptatem nisi. Eos non sint. Aspernatur ut praesentium. Sint ducimus ex. Fuga aut ducimus. Rem ut sit. Et voluptas sint. Facilis quasi quia. Doloremque consequatur pariatur. Omnis et odit. Molestias iusto nesciunt. Possimus veniam est. Magni ex impedit."
-      },
-      "reviews": [
-        {
-          "comment": "Est doloremque recusandae. Aut placeat aut. Consequatur iusto magnam. Libero et quam. Eaque repudiandae quia. Doloribus et quo. Suscipit laboriosam nihil. Non ea necessitatibus. Quam omnis consequatur. Atque id ea. Possimus enim voluptatem. Dignissimos a illo. Laborum tenetur voluptas. Molestiae recusandae est. Impedit nobis alias. Exercitationem nobis illo. Aliquam ut blanditiis. Sunt dolor est. Quidem qui qui.",
-          "star_rating": 1,
-          "client_id": 43
-        },
-        {
-          "comment": "Corporis minus molestias. Doloribus iusto sapiente. Nihil molestiae eaque. Sed optio inventore. Ipsa sed esse. Delectus praesentium corrupti. Beatae est ut. A omnis quibusdam. Sit corrupti suscipit. Eaque provident asperiores. Illo pariatur qui. Non et non. Quidem unde aspernatur. Eveniet sint repellendus. Quam asperiores eius. Minima qui eveniet. Doloremque nesciunt est. Ab sed voluptatum. Totam laudantium enim.",
-          "star_rating": 4,
-          "client_id": 33
-        }
-      ]
-    },
-    {
-      "id": 102,
-      "client": {
-        "firstname": "Colby",
-        "lastname": "Heller",
-        "email": "colbyheller@stanton.biz"
-      },
-      "task": {
-        "description": "Aut occaecati quae. Temporibus dolorem ut. Cumque est laboriosam. Sequi ratione non. Autem sapiente asperiores. Odio voluptas voluptas. Nihil iure blanditiis. Odit voluptatem vel. Quis ex aut. Beatae id recusandae. Illum sed consequatur. Sit modi quas. Debitis fugit recusandae. Error id illum. Excepturi laboriosam aut. Dicta inventore iusto. Qui fugit laborum. Earum suscipit pariatur. Esse aliquid odit. Repudiandae corporis et."
-      },
-      "reviews": [
-        {
-          "comment": "Minima veritatis sunt. Placeat omnis fuga. Et et at. In numquam harum. Quo et atque. Nemo molestiae cum. Et sed vitae. Nihil et voluptatem. Debitis aliquam similique. Fugit ab ducimus. Qui saepe ut. Recusandae autem totam. Porro veritatis aut. Ut at nihil. Necessitatibus quam sint. Laborum dolore quis. Ea tempore ea. A est similique. Soluta dicta ea.",
-          "star_rating": 5,
-          "client_id": 27
-        }
-      ]
-    },
-    {
-      "id": 182,
-      "client": {
-        "firstname": "Sha",
-        "lastname": "Labadie",
-        "email": "shalabadie@feil.com"
-      },
-      "task": {
-        "description": "Qui enim perspiciatis. Nobis quis magni. Qui dolorem labore. Ipsum asperiores repellendus. Voluptatibus ea ratione. Unde error dicta. Qui rerum nesciunt. Quia et provident. Similique ut aperiam. Ducimus harum atque. Consequatur officiis nihil. Enim impedit quo. Autem praesentium in. Ipsam nulla necessitatibus. Beatae omnis possimus. Veniam et labore. Recusandae sed nesciunt. Qui aut possimus. Et molestiae maxime. Mollitia molestiae distinctio."
-      },
-      "reviews": [
-        {
-          "comment": "Aut et modi. Velit veritatis recusandae. Id quaerat dicta. Quam non odio. Et ullam est. Iusto molestias non. Dolore hic excepturi. Eum ipsum possimus. Non id impedit. Nihil sunt incidunt. Est cum natus. Et ducimus et. Quia est omnis. Minus cupiditate eos. Vel itaque labore. Quia voluptatum est. Quia molestiae recusandae. Sed incidunt rerum. Qui maxime quo.",
-          "star_rating": 2,
-          "client_id": 3
-        }
-      ]
-    }
-  ]
+import { Task } from "./Tasks";
 
 function ViewProfessional() {
 
     const {id} = useParams()
 
     const [prof, setProf] = useState(null)
-    const [chat, setChat] = useState(false)
-
-    const navigate = useNavigate()
 
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
-        fetch(`http://localhost:3000/professionals/${id}`)
+
+        fetch(`https://kazi-skill-set-server.herokuapp.com/${sessionStorage.getItem('who') === 'client' ? "clients_profs" : "professionals"}/${id}`, {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${sessionStorage.getItem('jwt')}`
+          }
+        })
         .then(response => {
             return response.json()
         })
@@ -88,87 +34,239 @@ function ViewProfessional() {
             setProf(data)
             setLoading(false)
         })
+
+        
     }, [])
-
-    function hideLivechat(flag) {
-        setChat(flag)
-    }
-
     return (
     <>  { loading ? 
         <Loading /> :
         <>
-        { chat ? <Livechat hideLivechat={hideLivechat} user={{id: prof.id, receiver:"Professional"}} /> : null}
-        <div className="grid grid-cols-2 items-center relative">
-            <div className="absolute right-4 top-2 text-[3em] text-sky-700" onClick={() => hideLivechat(true)}><BsFillChatTextFill /></div>
+        { prof && prof.id ? <><div className="grid grid-cols-2 items-center relative">
             <div className="max-w-lg shadow m-4 flex flex-col">
                 <img className="border" src={prof.poster} alt="Avatar" />
                 <button className="bg-sky-400 py-4 px-6 mx-auto block my-3 rounded-md font-bold hover:bg-sky-600 hover:text-white" onClick={() => window.location = (prof.portfoliourl)}>Portfolio</button>
                 <div className="font-bold text-center py-2 w-3/4 mx-auto">{prof.location ? prof.location.toUpperCase() : null}</div>
             </div>
             <div className="">
-                <h2 className="text-sky-800">#{prof.username}</h2>
-                <h1>{prof.firstname} {prof.lastname}</h1>
-                <a href={`mailto:${prof.email}`}>{prof.email}</a>
-                <div><a href={`tel:${prof.phone}`}>{prof.phone}</a></div>
+                <h2 className="text-sky-800 flex items-center border-b border-black"><MdPermIdentity className="mr-2 text-[1.2em]" /> {prof.username}</h2>
+                <h1><RiAccountPinCircleFill /> {prof.firstname} {prof.lastname}</h1>
+                <div className="flex items-center"><MdEmail className="mr-2 text-[1.2em]" /><a href={`mailto:${prof.email}`}>{prof.email}</a></div>
+                <div className="flex items-center"><RiWhatsappFill className="mr-2 text-[1.2em]" /><a href={`tel:${prof.phone}`}>{prof.phone}</a></div>
                 <p className="text-sm">{prof.description}</p>
             </div>
         </div>
-        <Reviews id={prof.id} />
+        <Reviews id={prof.id} /> </> : null }
         </>
         }
     </>
     )
 }
 
-function Reviews({id}) {
+function ProfessionalProfile() {
 
-    const [reviews, setReviews]  = useState([])
+    const [prof, setProf] = useState(null)
 
-    // useEffect(() => {
-    //     fetch(`http://localhost:3000/professionals/${id}/reviews`)
-    //     .then(response => response.json())
-    //     .then(revs => setReviews(revs))
-    // }, [])
+    const user = useContext(UserContext)
+
+
+    const [loading, setLoading] = useState(true)
+    const [pendingtasks, setPendingTasks] = useState([])
+
+    const [reloader, setReloader] = useState(0)
+
+    function igniteReload(newContract) {
+      alert("Ignition")
+      alert(Object.keys(newContract).join("\n"))
+      
+    }
+
+    function handleChange(e) {
+      setProf({...prof, [e.target.name]: e.target.value})
+    }
+
+    function clearPendingTask(p_id) {
+      setPendingTasks(pendingtasks.filter(t => t.id !== p_id))
+    }
+
+    useEffect(() => {
+
+        fetch(`https://kazi-skill-set-server.herokuapp.com/me_prof`, {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${sessionStorage.getItem('jwt')}`
+          }
+        })
+        .then(response => {
+            return response.json()
+        })
+        .then(data => {
+            setProf(data)
+            setLoading(false)
+
+            fetchPendingTasks(data.id)
+        })
+    }, [reloader])
+
+    function fetchPendingTasks(profId) {
+      fetch(`https://kazi-skill-set-server.herokuapp.com/pendingtasks/${profId}`)
+      .then(response => response.json())
+      .then(data => {
+        setPendingTasks(data)
+      })
+    }
 
     return (
-        <div className="border p-3">
-            <h1 className="px-5">Job Reviews</h1>
-            <div className="jobs grid grid-cols-2 w-full gap-2">
-                <div className="jobs grid grid-cols-1">
-                  {
-                    job_reviews.map((job, index) => {
-                      return <JobReviewCard job={job} key={index} />
-                    })
-                  }
+    <>  { loading ? 
+        <Loading /> :
+        <>
+        { prof && prof.id ? <>
+        <form onSubmit={(e) => {
+          e.preventDefault();
+          user.handleProfUpdate(setProf, prof)
+        }} className="grid grid-cols-2 relative bg-sky-400 justify-center">
+            <div className="max-w-lg shadow-md shadow-black m-4 flex flex-col p-2 justify-center">
+                <div className="flex flex-col max-w-lg mb-2">
+                  <label>Change Job Title</label>
+                  <input type="text" className="p-2 outline-none" onChange={handleChange} name="job_title"  value={prof.job_title} />
                 </div>
-                <div className="reviews  bg-white " >
-                    {
-                      job_reviews[0].reviews.map((rev, idx) => {
-                        return <JobReviewerCard rev={rev} key={idx} />
-                      })
-                    }
+                <div className="flex flex-col max-w-lg mb-2">
+                  <label>Avatar</label>
+                  <input type="text" className="p-2 outline-none" onChange={handleChange} name="poster"  value={prof.poster} />
+                </div>
+                <img className="my-2" src={prof.poster} alt="Avatar" />
+                <div className="flex flex-col max-w-lg">
+                  <label>Change Portfoliourl</label>
+                  <input type="url" className="p-2 outline-none" onChange={handleChange} name="portfoliourl"  value={prof.portfoliourl} />
+                </div>
+                <div className="flex flex-col max-w-lg">
+                  <label>Switch Location</label>
+                  <input className="p-2 outline-none" onChange={handleChange} name="location"  value={prof.location} />
                 </div>
             </div>
+            <div className=" p-4">
+                <div className="flex flex-col max-w-lg">
+                  <label>Username</label>
+                  <input className="p-2 outline-none" onChange={handleChange} name="username"  value={prof.username} />
+                </div>
+                <div className="flex flex-col max-w-lg">
+                  <label>First Name</label>
+                  <input className="p-2 outline-none" onChange={handleChange} name="firstname"  value={prof.firstname} />
+                </div>
+                <div className="flex flex-col max-w-lg">
+                  <label>Last Name</label>
+                  <input className="p-2 outline-none" onChange={handleChange} name="lastname"  value={prof.lastname} />
+                </div>
+                <div className="flex flex-col max-w-lg">
+                  <label>Email Address</label>
+                  <input className="p-2 outline-none" onChange={handleChange} name="email"  value={prof.email} />
+                </div>
+                <div className="flex flex-col max-w-lg">
+                  <label>Phone Number</label>
+                  <input className="p-2 outline-none" onChange={handleChange} name="phone"  value={prof.phone} />
+                </div>
+                <div className="flex flex-col max-w-lg">
+                  <label>Chage Job Description</label>
+                  <textarea rows="7" className="p-2 outline-none" onChange={handleChange} name="description"  value={prof.description}></textarea>
+                </div>
+            </div>
+            <div></div>
+            <div className="flex justify-center my-3">
+              <input className="bg-sky-800 py-2 px-4 rounded-md hover:bg-white hover:text-black font-bold" type="submit" value="Update Changes" />
+            </div>
+        </form>
+
+        <div className="flex overflow-x-scroll">
+        {
+          pendingtasks.map((p_task, index) => {
+            return <Task key={index} task={p_task.task} cart="true" p_id={p_task.id} igniteReload={igniteReload} clearPendingTask={clearPendingTask} />
+          })
+        }
         </div>
+        <Reviews id={prof.id} who="prof" /> </> : null }
+        </>
+        }
+    </>
     )
 }
 
-//https://cdn.pixabay.com/photo/2013/07/13/01/10/plumbing-155224__340.png
-//https://cdn.pixabay.com/photo/2023/03/20/07/30/ai-generated-7864001__340.jpg
+function Reviews({id, who}) {
 
-function JobReviewCard({job}) {
+    const reviewers = useRef()
+
+    const [reviews, setReviews]  = useState([])
+    const [selectedJob, setSelectedJob] = useState(0)
+
+    function deleteJob(reviewId) {
+      setReviews(reviews.filter(review => review.id !== reviewId))
+      fetch(`https://kazi-skill-set-server.herokuapp.com/jobs/${reviewId}`,{
+        method: 'DELETE'
+      })
+      .then(response => response.json())
+      .then(res => {
+
+      })
+    }
+
+    useEffect(() => {
+        fetch(`https://kazi-skill-set-server.herokuapp.com/${sessionStorage.getItem('who') === 'client' ? 'clients' : 'professionals'}/${id}/reviews`, {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${sessionStorage.getItem('jwt')}`
+          }
+        })
+        .then(response => response.json())
+        .then(revs => setReviews(revs))
+    }, [])
+
+    return (
+        <> { reviews.length > 0 &&
+        <div className="border-t-2 border-sky-800 p-3">
+            <h1 className="px-5">Job Reviews</h1>
+            <div className="jobs grid grid-cols-2 w-full gap-2">
+                <div className="jobs grid grid-cols-1 items-start">
+                  {
+                    reviews.map((job, index) => {
+                      return <JobReviewCard reviewers={reviewers} job={job} who={who} key={index} jobNumber={index} setSelectedJob={setSelectedJob} deleteJob={deleteJob} selectedJob={selectedJob} />
+                    })
+                  }
+                </div>
+                <div className="reviews" ref={reviewers} >
+                  <h2 className="pl-4">Reviewers</h2>
+                    { reviews[selectedJob] ?
+                      reviews[selectedJob].reviews.length > 0 ?
+                      reviews[selectedJob].reviews.map((rev, idx) => {
+                        return <JobReviewerCard rev={rev} key={idx} />
+                      }) : <div className="flex flex-col text-red-600 justify-center items-center border-2 border-red-600 rounded-lg m-4 p-3"><p className="font-bold text-3xl m-0">No reviews yet</p><GoNoNewline className="text-[5em]" /></div>
+                      : null
+                    }
+                </div>
+            </div>
+        </div> }
+        </>
+    )
+}
+
+function JobReviewCard({job, reviewers, jobNumber, setSelectedJob, who, deleteJob, selectedJob}) {
+
   return (
-    <div className="p-3 my-3 bg-slate-50 rounded-md">
+    <div className={`${jobNumber===selectedJob ? "ring-8 ring-black" : ""}  relative p-3 my-3 bg-slate-50 rounded-md bg-gradient-to-bl from-sky-100 via-white hover:ring-2`}>
+      { who && <button onClick={() => deleteJob(job.id)} className="bg-red-600 px-3 py-1 absolute right-2 rounded-md text-white">Remove</button> }
       <div className="border-sky-400 border-b-4">
         <img className="" src="https://cdn.pixabay.com/photo/2013/07/13/01/10/plumbing-155224__340.png" />
       </div>
       <div>
-        <p className="font-bold text-sky-800">Client: {`${job.client.firstname} ${job.client.lastname}`}</p>
-        <p className="text-sm">Email: <span className="text-sky-400">{job.client.email}</span></p>
+        <p className="">Client: <span className="font-bold text-sky-800">{`${job.client.firstname} ${job.client.lastname}`}</span></p>
+        <p className="text-sm">Client's Email Address: <span className="text-sky-400">{job.client.email}</span></p>
+      </div>
+      <div className="bg-gradient-to-r from-sky-200 py-1 px-2 rounded-md">
+        <h3>Job Description</h3>
+        <p>{job.task.description}</p>
       </div>
       <div className="flex justify-end py-2">
-        <button className="bg-sky-400 py-2 px-3 rounded-md">See Reviews</button>
+        <button onClick={() => {
+          setSelectedJob(jobNumber)
+          reviewers.current.scrollIntoView({behavior: "smooth", inline: 'start'})
+        }} className="bg-sky-400 py-2 px-3 rounded-md hover:bg-sky-900 hover:text-white">See Reviews</button>
       </div>
     </div>
   )
@@ -176,17 +274,21 @@ function JobReviewCard({job}) {
 
 function JobReviewerCard({rev}) {
   return (
-    <div className="p-3 my-3 rounded-md ">
-      <div className="">
-        <img className="h-12" src="https://cdn.pixabay.com/photo/2023/03/20/07/30/ai-generated-7864001__340.jpg" />
+    <div className="p-3 my-3 rounded-md bg-white">
+      <div className="flex items-center">
+        <img className="rounded-full ring-4 ring-sky-900 h-28" src="https://cdn.pixabay.com/photo/2023/03/20/07/30/ai-generated-7864001__340.jpg" />
+        <div className="border-b-2 border-sky-900 px-3">
+          <div className="font-bold text-sky-400">Sha Labadie</div>
+          <div className="text-sky-800 break-all">shalabadie@feil.com</div>
+        </div>
       </div>
-      <div className="">{rev.comment}</div>
-      <div>Rating</div>
-      <div className="flex">
+      <div className="text-sm border-b-2 border-sky-400 p-2">{rev.comment}</div>
+      <div className="font-bold">Rating</div>
+      <div className="flex justify-center text-sky-400">
         {new Array(10).fill(0).map((star, idx) => idx < rev.star_rating ? <BsStarFill key={idx} /> : <BsStar key={idx} />)}
       </div>
     </div>
   )
 }
 
-export default ViewProfessional;
+export { ViewProfessional, ProfessionalProfile }

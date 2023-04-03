@@ -1,25 +1,34 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
+
+import { UserContext } from './UserContext';
 
 function Tasks() {
 
-    const [tasks, setTasks] = useState([]);
+  const [tasks, setTasks] = useState([]);
+
+  const user = useContext(UserContext)
 
   useEffect(() => {
     // Get the user Id
     
-
     // Fetch data using the user Id
-    fetch(`/tasks`)
+    if(user.user) {
+      fetch(`https://kazi-skill-set-server.herokuapp.com/tasks`,{
+          method: 'GET',
+          headers: {
+            'Authorization': 'Bearer ' + sessionStorage.getItem('jwt')
+          }
+      })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data)
         const tasks = data
         setTasks(tasks);
       })
       .catch((error) => {
         console.error(error);
       });
-    }, []);
+    }
+  }, [user]);
 
     return (
         <div className=''>
@@ -35,22 +44,37 @@ function Tasks() {
               <button className="button bg-blue-400 px-4 py-2 rounded-md">Search</button>
             </div>
 
-            <div className='grid sm-grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
-                {tasks.slice(0,8).map((task) => (
-                <div className="max-w-lg shadow shadow-black m-3 p-4 bg-sky-100" key={task.id}>
-                    <h2>{task.location}</h2>
-                    <p className="card-text">{task.description}</p>
-                    <p className="card-text">{task.start_date}</p>
-                    <div className='flex p-3 font-bold gap-4'>
-                        <button className='text-white bg-green-500 px-3 py-2 rounded-md'>Accept</button>
-                        <button className='text-white bg-green-700 px-3 py-2 rounded-md'>Decline</button>
-                    </div>
-                </div>
-                ))}
+            <div className='flex flex-wrap'>
+                {tasks.slice(0,8).map((task, index) => {
+                  return <Task task={task} key={index} />
+                })}
             </div>
             
         </div>
     )
 }
 
-export default Tasks;
+function Task({task, cart, p_id, igniteReload, clearPendingTask}) {
+
+  const user = useContext(UserContext)
+
+  return (
+      <div className="min-w-[400px] max-w-lg shadow shadow-black m-3 p-4 bg-sky-100 rounded-md bg-gradient-to-tr from-sky-100 to-white">
+        <h2>{task.location}</h2>
+          <p className="card-text">{task.description}</p>
+          <p className="card-text">{task.start_date}</p>
+          <div className='flex p-3 font-bold gap-4'>
+          { cart ? <><button onClick={() => {
+            user.signContract(user.user.id, task.client_id, task.id, p_id, igniteReload)
+          }} className='text-white bg-green-700 px-3 py-2 rounded-md'>Sign Contract</button><button onClick={() => {
+            user.declineTask(p_id)
+            clearPendingTask(p_id)
+          }} className='text-white bg-red-500 px-3 py-2 rounded-md'>Decline</button></> : <button onClick={() => {
+              user.takeTask(task.id, user.user.id)
+          }} className='text-white bg-green-500 px-3 py-2 rounded-md hover:bg-sky-500'>Add</button> }
+        </div>
+      </div>
+  )
+}
+
+export { Task, Tasks }

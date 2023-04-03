@@ -1,24 +1,24 @@
 class SessionsController < ApplicationController
-  skip_before_action :authorize, only: [:login]
 
   def login
-    client = Client.find_by(username: login_params[:username])
-    if client&.authenticate(login_params[:password])
-        session[:username] = client.username
-        return render json: client, status: :created
-    end
+    @client = Client.find_by(username: login_params[:username])
 
-    render json: { error: "Invalid username or password"}, status: :not_found
+    if @client&.authenticate(login_params[:password])
+      token = encode_token({ username: @client.username })
+      render json: { user: ClientSerializer.new(@client), jwt: token  }, status: :accepted
+    else
+      render json: { error: "Invalid username or password"}, status: :not_found
+    end
   end
 
   def logprof
-    prof = Professional.find_by(username: login_params[:username])
-    if prof&.authenticate(login_params[:password])
-        session[:username] = prof.username
-        return render json: prof, status: :created
+    @prof = Professional.find_by(username: login_params[:username])
+    if @prof&.authenticate(login_params[:password])
+      token = encode_token({ username: @prof.username })
+      render json: { user: ProfessionalSerializer.new(@prof), jwt: token  }, status: :accepted
+    else
+      render json: { error: "Invalid username or password"}, status: :not_found
     end
-
-    render json: { error: "Invalid username or password"}, status: :not_found
   end
 
   private

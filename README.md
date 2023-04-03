@@ -139,3 +139,8 @@ ProfessionalCard
 Profile [include reviews] route=profiles/prof_id
 NewTaskForm
 HistoryCard -- Description previous jobs (List of jobs)
+
+## Heroku Server
+
+https://kazi-skill-set-server.herokuapp.com
+https://git.heroku.com/kazi-skill-set-server.git

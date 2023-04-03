@@ -1,5 +1,6 @@
 class ClientsController < ApplicationController
-    # skip_before_action :authorize, only: [:signup]
+    before_action :authorize_c
+    skip_before_action :authorize_c, only: [:signup, :chats]
 
    def index
     render json: Client.all
@@ -10,23 +11,40 @@ class ClientsController < ApplicationController
         render json: prof
     end
 
+    def professional
+        render json: Professional.find(params[:id])
+    end
+
+    def topprofs
+        render json: Professional.all.sample(8)
+    end
+
+    def job_reviews
+        render json: Professional.find(params[:id]).jobs
+    end
+
     def chats
         render json: Client.find(params[:id]).professionals.uniq
     end
 
     def signup
-        client = Client.create!(signup_client_params)
-        render json: client, status: :created
+        @client = Client.create!(signup_client_params)
+
+        if @client.valid?
+            @token = encode_token(username: @client.username)
+            render json: { user: ClientSerializer.new(@client), jwt: @token }, status: :created
+        else
+            render json: { error: 'failed to signup' }, status: :unprocessable_entity
+        end
     end 
 
     def me
-        client = Client.find_by(username: session[:username])
-        render json: client
+        render json: @client
     end
 
     private
 
     def signup_client_params
-        params.permit(:username, :firstname, :lastname , :email, :phone, :password, :password_confirmation)
+        params.permit(:username, :firstname, :lastname , :email, :phone, :poster, :password, :password_confirmation)
     end
 end
