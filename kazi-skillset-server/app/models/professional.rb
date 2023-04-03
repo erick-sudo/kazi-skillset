@@ -5,8 +5,13 @@ class Professional < ApplicationRecord
     validates :lastname, presence: true
     validates :email, presence: true
     validates :job_title, presence: true
+    validates :phone, presence: true
+    validates :category_id, presence: true
+    validates :password_digest, presence: true
+
     belongs_to :category
     has_many :jobs
     has_many :messages
     has_many :clients, through: :messages
+    has_many :pending_tasks
 end
