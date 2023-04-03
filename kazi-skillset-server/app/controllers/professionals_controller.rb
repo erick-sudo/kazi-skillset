@@ -53,6 +53,12 @@ class ProfessionalsController < ApplicationController
         render json: @prof
     end
 
+    def job_reviews
+        prof = Professional.find(params[:id])
+        render json: prof.client, Serializer: ProfessionalJobReviewSerializer
+        
+    end
+
     private
 
     def signup_prof_params
